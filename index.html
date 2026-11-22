@@ -350,7 +350,7 @@ footer{
     <div class="shead" data-reveal>
       <span class="snum">02</span>
       <h2>Доказательство</h2>
-      <span class="note">не макет · работает в Telegram</span>
+      <span class="note">не макет · работает в Telegram и в браузере</span>
     </div>
 
     <div class="proof">
@@ -371,16 +371,18 @@ footer{
       </div>
 
       <div class="pmeta" data-reveal data-delay="1">
-        <h3>Бот записи с напоминаниями</h3>
+        <h3>Бот записи и сбора заявок</h3>
         <p>
-          Не картинка и не видео. Открываете в Telegram, записываетесь, вам приходит
-          напоминание. Администратору — уведомление о новой записи.
+          Не картинка и не видео. Открываете в Telegram, записываетесь или оставляете
+          заявку, вам приходит напоминание. Администратору — уведомление о новой
+          записи и о каждой заявке.
         </p>
         <div class="specs">
           <div>стек<b>Python · aiogram · SQLite</b></div>
           <div>запуск<b>одна команда</b></div>
           <div>слоты<b>занятость проверяется</b></div>
           <div>напоминания<b>фоновый цикл</b></div>
+          <div>заявки<b>FSM → SQLite + уведомление</b></div>
         </div>
         <div class="code" aria-label="Фрагмент кода">
 <span class="c"># проверка занятости и запись</span>
@@ -395,6 +397,64 @@ footer{
         <div class="links">
           <a href="https://t.me/zzapis_demo_slot_bot">открыть бота →</a>
           <a href="https://github.com/VacPit">код на GitHub →</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-reveal data-delay="2">
+        <span class="live"><i></i>демо в сети</span>
+        <div class="chat" id="leadform">
+          <div class="bub usr">Заявка с сайта: «Нужна форма в amoCRM», контакт @anna</div>
+          <div class="bub bot"><span class="lbl">таблица заявок</span>№1 · форма · @anna · Нужна форма в amoCRM</div>
+          <div class="bub admin"><span class="lbl">уведомление администратору</span>Новая заявка · веб-форма · №1 · @anna</div>
+        </div>
+      </div>
+
+      <div class="pmeta" data-reveal data-delay="3">
+        <h3>Форма с сайта → таблица + Telegram</h3>
+        <p>
+          Откройте демо-форму, отправьте заявку и увидите её в журнале. Та же база
+          используется ботом: заявки из формы и из Telegram лежат рядом.
+        </p>
+        <div class="specs">
+          <div>приём<b>POST /demo/lead</b></div>
+          <div>хранение<b>SQLite · общая таблица</b></div>
+          <div>уведомление<b>Telegram админу</b></div>
+          <div>проверки<b>юнит-тесты · защита от повторов</b></div>
+        </div>
+        <div class="code" aria-label="Фрагмент кода">
+<span class="c"># заявка из формы и из бота — один путь</span>
+lead_id, dup = <span class="f">save_lead</span>(DB_PATH, source, name, contact, task)
+<span class="k">if not</span> dup:
+    <span class="k">await</span> <span class="f">notify_admin</span>(bot, <span class="s">"Новая заявка"</span>, text)
+        </div>
+        <div class="links">
+          <a href="https://glc-demo-bot.onrender.com/demo/form">открыть форму →</a>
+          <a href="https://github.com/VacPit/glc-demo-bot">код на GitHub →</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-reveal data-delay="4">
+        <span class="live"><i></i>реальный запуск</span>
+        <div class="chat" id="imap">
+          <div class="bub admin"><span class="lbl">reply-check.log</span>Найдено [автоответ] от sales@dobrosite.com</div>
+          <div class="bub admin"><span class="lbl">reply-check.log</span>Найдено [bounce] 550 ... user not found</div>
+          <div class="bub bot"><span class="lbl">результат</span>3 письма за первый запуск · CSV обновлён</div>
+        </div>
+      </div>
+
+      <div class="pmeta" data-reveal data-delay="5">
+        <h3>Почтовый ассистент: IMAP → ответы и база</h3>
+        <p>
+          Подключил IMAP к почте, чтобы не проверять входящие вручную. За первый
+          запуск нашёл 3 письма: автоответ агентства, ошибку доставки с точным
+          кодом <code>550</code> и сервисное уведомление. Ответы сохраняются дословно,
+          база лидов обновляется сама, повторные запуски ничего не дублируют.
+        </p>
+        <div class="specs">
+          <div>источник<b>IMAP · Входящие + Спам</b></div>
+          <div>классификация<b>ответ / автоответ / bounce</b></div>
+          <div>результат<b>.eml + .txt + CSV</b></div>
+          <div>режим<b>2 раза в день, без дублей</b></div>
         </div>
       </div>
     </div>
