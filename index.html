@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Иван — разработка ботов и интеграций</title>
+<style>
+  :root {
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --accent: #2563eb;
+    --soft: #f8fafc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", -apple-system, Roboto, Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.6;
+    background: #fff;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 72px; }
+
+  .eyebrow {
+    font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 12px;
+  }
+  h1 { font-size: 34px; line-height: 1.2; margin: 0 0 16px; letter-spacing: -.01em; }
+  .lead { font-size: 18px; color: var(--muted); margin: 0 0 28px; max-width: 620px; }
+
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; }
+  .btn {
+    display: inline-block; padding: 12px 22px; border-radius: 8px;
+    text-decoration: none; font-weight: 600; font-size: 15px;
+    background: var(--accent); color: #fff; border: 1px solid var(--accent);
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .88; }
+  .btn.ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+
+  h2 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--muted); margin: 0 0 20px; font-weight: 600;
+  }
+  section { margin-bottom: 48px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  .card {
+    border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px;
+    background: var(--soft);
+  }
+  .card b { display: block; margin-bottom: 6px; font-size: 15px; }
+  .card span { font-size: 14px; color: var(--muted); }
+
+  .case {
+    border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px;
+    margin-bottom: 14px;
+  }
+  .case h3 { margin: 0 0 8px; font-size: 17px; }
+  .case p { margin: 0 0 10px; font-size: 15px; color: #334155; }
+  .case .meta { font-size: 13px; color: var(--muted); }
+  .case a { color: var(--accent); }
+
+  ol { padding-left: 20px; margin: 0; }
+  ol li { margin-bottom: 10px; font-size: 15px; }
+
+  footer {
+    border-top: 1px solid var(--line); padding-top: 24px;
+    font-size: 14px; color: var(--muted);
+  }
+  footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Разработка под подряд</div>
+  <h1>Иван — Telegram-боты и интеграции</h1>
+  <p class="lead">
+    Делаю Telegram-ботов и интеграции для бизнеса: запись, оплата, формы в CRM,
+    уведомления. Беру задачи, которые у агентства не доходят до рук.
+  </p>
+
+  <div class="cta">
+    <a class="btn" href="https://t.me/zarrews">Написать в Telegram</a>
+    <a class="btn ghost" href="https://t.me/zzapis_demo_slot_bot">Потыкать демо-бота</a>
+  </div>
+
+  <section>
+    <h2>Что делаю</h2>
+    <div class="grid">
+      <div class="card">
+        <b>Telegram-боты</b>
+        <span>Запись на услугу, оплата, каталог, напоминания, поддержка.</span>
+      </div>
+      <div class="card">
+        <b>Интеграции</b>
+        <span>Формы в CRM, оплата, 1С, Google Sheets, вебхуки, уведомления.</span>
+      </div>
+      <div class="card">
+        <b>Доработки</b>
+        <span>Правки и доработки на Bitrix, WordPress, Tilda, готовых ботах.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Примеры</h2>
+
+    <div class="case">
+      <h3>Бот записи с напоминаниями</h3>
+      <p>
+        Клиент выбирает день и время, занятые слоты скрыты, после записи приходит
+        подтверждение и напоминание перед визитом. Администратор получает уведомление
+        в Telegram.
+      </p>
+      <div class="meta">Python, aiogram, SQLite · Демо: <a href="https://t.me/zzapis_demo_slot_bot">@zzapis_demo_slot_bot</a></div>
+    </div>
+
+    <div class="case">
+      <h3>Форма с сайта в CRM</h3>
+      <p>
+        Заявка с сайта автоматически создаёт сделку в CRM с нужным ответственным
+        и источником. Дубли в почте больше не теряются, клиенту приходит автоответ.
+      </p>
+      <div class="meta">Webhook, REST API, обработка ошибок и повторные отправки</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Как работаем</h2>
+    <ol>
+      <li>Вы присылаете задачу и сроки, я оцениваю: цена и дата фиксируются.</li>
+      <li>Предоплата 50%, остальное по акту приёмки.</li>
+      <li>Правки по ТЗ входят в цену, изменения объёма оплачиваются отдельно.</li>
+      <li>Сдаю в срок 3–5 дней на типовые задачи, код остаётся у вас.</li>
+    </ol>
+  </section>
+
+  <footer>
+    Связь: <a href="https://t.me/zarrews">@zarrews</a> · kish.lak@list.ru · <a href="https://github.com/VacPit">GitHub</a><br>
+    Работаю по подряду с агентствами и студиями.
+  </footer>
+
+</div>
+</body>
+</html>
