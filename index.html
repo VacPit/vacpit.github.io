@@ -401,7 +401,7 @@ footer{
       </div>
 
       <div class="pcard" data-reveal data-delay="2">
-        <span class="live"><i></i>демо в сети</span>
+        <span class="live"><i></i>код и тесты готовы</span>
         <div class="chat" id="leadform">
           <div class="bub usr">Заявка с сайта: «Нужна форма в amoCRM», контакт @anna</div>
           <div class="bub bot"><span class="lbl">таблица заявок</span>№1 · форма · @anna · Нужна форма в amoCRM</div>
@@ -412,8 +412,8 @@ footer{
       <div class="pmeta" data-reveal data-delay="3">
         <h3>Форма с сайта → таблица + Telegram</h3>
         <p>
-          Откройте демо-форму, отправьте заявку и увидите её в журнале. Та же база
-          используется ботом: заявки из формы и из Telegram лежат рядом.
+          Форма принимает заявку, пишет её в SQLite и уведомляет админа в Telegram.
+          Та же база используется ботом: заявки из формы и из Telegram лежат рядом.
         </p>
         <div class="specs">
           <div>приём<b>POST /demo/lead</b></div>
@@ -428,8 +428,8 @@ lead_id, dup = <span class="f">save_lead</span>(DB_PATH, source, name, contact, 
     <span class="k">await</span> <span class="f">notify_admin</span>(bot, <span class="s">"Новая заявка"</span>, text)
         </div>
         <div class="links">
-          <a href="https://glc-demo-bot.onrender.com/demo/form">открыть форму →</a>
-          <a href="https://github.com/VacPit/glc-demo-bot">код на GitHub →</a>
+          <a href="https://github.com/VacPit/glc-demo-bot/blob/main/lead_store.py">код на GitHub →</a>
+          <a href="https://github.com/VacPit/glc-demo-bot/blob/main/test_demo.py">тесты →</a>
         </div>
       </div>
 
