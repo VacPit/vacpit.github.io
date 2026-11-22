@@ -6,6 +6,11 @@
 <title>Иван — боты, интеграции, автоматизация · удалённо</title>
 <meta name="description" content="Удалённый разработчик. Telegram-боты, интеграции с CRM и 1С, выгрузки и парсеры. Фикс за задачу, срок 2–5 дней, предоплата 50%.">
 <meta name="theme-color" content="#0A0B0D">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vacpit.github.io/">
+<meta property="og:title" content="Иван — боты, интеграции, автоматизация · подряд для агентств">
+<meta property="og:description" content="Telegram-боты, формы в CRM, отчёты и парсеры. Фикс за задачу, 2–5 дней, предоплата 50%. Живые демо и код — на сайте.">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0B0D'/%3E%3Cpath d='M22 18v28M22 18h20M22 32h16M42 32v14' stroke='%23E8A33D' stroke-width='6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
 <style>
 :root{
@@ -297,6 +302,8 @@ footer{
       <div class="fact"><b>Срок</b><span>2–5 дней на типовую</span></div>
       <div class="fact"><b>Оплата</b><span>50% вперёд, остаток по акту</span></div>
       <div class="fact"><b>Код</b><span>Остаётся у вас, с инструкцией</span></div>
+      <div class="fact"><b>Исполнение</b><span>Сам, без субподрядчиков</span></div>
+      <div class="fact"><b>Отклик</b><span>В течение рабочего дня</span></div>
     </div>
   </section>
 
@@ -458,6 +465,31 @@ lead_id, dup = <span class="f">save_lead</span>(DB_PATH, source, name, contact, 
           <div>режим<b>2 раза в день, без дублей</b></div>
         </div>
       </div>
+
+      <div class="pcard" data-reveal data-delay="6">
+        <span class="live"><i></i>реальный процесс</span>
+        <div class="chat" id="leadbase">
+          <div class="bub admin"><span class="lbl">источник</span>25 агентств · 2GIS и публичные сайты</div>
+          <div class="bub bot"><span class="lbl">проверка</span>email валиден, дубли убраны, база в CSV</div>
+          <div class="bub usr">11 писем в первый день · 3 события в IMAP</div>
+        </div>
+      </div>
+
+      <div class="pmeta" data-reveal data-delay="7">
+        <h3>Сбор базы лидов → CSV → рассылка → учёт ответов</h3>
+        <p>
+          Собрал публичные контакты агентств, проверил адреса и убрал дубли.
+          Разбил на волны по 10 писем в день с паузами, отдельно логировал
+          отправки и ответы. Один адрес вернул <code>550 user not found</code> —
+          причину разобрал и повторно туда не писал.
+        </p>
+        <div class="specs">
+          <div>источник<b>2GIS + сайты агентств</b></div>
+          <div>проверка<b>валидация email, дедупликация</b></div>
+          <div>отправка<b>10 писем в день, паузы</b></div>
+          <div>контроль<b>IMAP + логи + CSV</b></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -502,6 +534,14 @@ lead_id, dup = <span class="f">save_lead</span>(DB_PATH, source, name, contact, 
       <div class="step" data-reveal data-delay="1"><b>Фиксация</b><span>ТЗ на одну страницу: что входит, что нет, срок, сумма. Всё письменно.</span></div>
       <div class="step" data-reveal data-delay="2"><b>Предоплата 50%</b><span>Старт после оплаты. Промежуточный результат — по договорённости.</span></div>
       <div class="step" data-reveal data-delay="3"><b>Сдача</b><span>Работает на вашей стороне, акт, остаток. Три недели гарантии на баги.</span></div>
+    </div>
+    <div class="code" data-reveal aria-label="Шаблон задачи">
+<span class="c"># чтобы я ответил ценой за 20 минут, пришлите:</span>
+<b>Задача:</b> что должно работать после сдачи
+<b>Системы:</b> CRM / 1С / бот / API — что уже есть
+<b>Вводные:</b> доступы или пример данных (можно обезличенный)
+<b>Срок:</b> к какому числу нужно
+<span class="c"># не нужно: ТЗ на 20 страниц и «сделайте красиво»</span>
     </div>
   </section>
 
