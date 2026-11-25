@@ -1,1 +1,752 @@
-<!-- build refresh -->
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Иван — боты, интеграции, автоматизация · удалённо</title>
+<meta name="description" content="Удалённый разработчик. Telegram-боты, интеграции с CRM и 1С, выгрузки и парсеры. Фикс за задачу, срок 2–5 дней, предоплата 50%.">
+<meta name="theme-color" content="#0A0B0D">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vacpit.github.io/">
+<meta property="og:title" content="Иван — боты, интеграции, автоматизация · подряд для агентств">
+<meta property="og:description" content="Telegram-боты, формы в CRM, отчёты и парсеры. Фикс за задачу, 2–5 дней, предоплата 50%. Живые демо и код — на сайте.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0B0D'/%3E%3Cpath d='M22 18v28M22 18h20M22 32h16M42 32v14' stroke='%23E8A33D' stroke-width='6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0A0B0D;
+  --bg-2:#0E1014;
+  --surface:#111318;
+  --line:#1E2127;
+  --line-2:#2A2E36;
+  --text:#E8E9EC;
+  --muted:#8B919B;
+  --dim:#5D636D;
+  --accent:#E8A33D;
+  --accent-dim:rgba(232,163,61,.14);
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --sans:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--sans);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 500px at 15% -10%, rgba(232,163,61,.07), transparent 60%),
+    radial-gradient(700px 500px at 100% 0%, rgba(90,120,180,.06), transparent 55%);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.glow{
+  position:fixed;top:0;left:0;width:520px;height:520px;border-radius:50%;
+  pointer-events:none;z-index:1;opacity:0;transition:opacity .6s;
+  background:radial-gradient(circle, rgba(232,163,61,.10), transparent 65%);
+  transform:translate(-50%,-50%);
+}
+.wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 28px}
+
+/* ---------- top bar ---------- */
+.top{
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:26px 0 60px;font-family:var(--mono);font-size:12px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+}
+.top .me{color:var(--text)}
+.top .me b{font-weight:600}
+.top .right{display:flex;align-items:center;gap:18px}
+.status{display:inline-flex;align-items:center;gap:8px}
+.dot{
+  width:6px;height:6px;border-radius:50%;background:#5FD08A;
+  box-shadow:0 0 0 0 rgba(95,208,138,.5);animation:pulse 2.6s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(95,208,138,.45)}
+  70%{box-shadow:0 0 0 7px rgba(95,208,138,0)}
+  100%{box-shadow:0 0 0 0 rgba(95,208,138,0)}
+}
+
+/* ---------- hero ---------- */
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 26px;
+}
+h1{
+  font-size:clamp(38px,6.6vw,72px);line-height:1.02;letter-spacing:-.035em;
+  margin:0 0 28px;font-weight:600;max-width:16ch;
+}
+h1 em{font-style:normal;color:var(--muted)}
+.lead{
+  font-size:clamp(16px,1.6vw,19px);color:#B9BEC7;max-width:56ch;margin:0 0 40px;
+}
+.lead b{color:var(--text);font-weight:600}
+
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:2px;
+  font-size:14.5px;font-weight:600;text-decoration:none;letter-spacing:-.01em;
+  background:var(--accent);color:#120D05;border:1px solid var(--accent);
+  transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.btn:hover{transform:translateY(-2px);background:#F2B052;box-shadow:0 12px 30px -12px rgba(232,163,61,.7)}
+.btn .arw{transition:transform .18s ease}
+.btn:hover .arw{transform:translateX(4px)}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line-2)}
+.btn.ghost:hover{border-color:#4A505B;background:rgba(255,255,255,.03);box-shadow:none}
+
+/* facts strip */
+.facts{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.fact{
+  padding:22px 28px 22px 0;border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  font-size:15px;line-height:1.45;color:#C9CDD4;
+}
+.fact:nth-child(3n){border-right:0;padding-right:0}
+.fact:nth-child(3n+2),.fact:nth-child(3n){padding-left:28px}
+.fact:nth-child(n+4){border-bottom:0}
+.fact b{
+  display:block;font-family:var(--mono);font-size:12.5px;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:9px;
+}
+.fact span{color:#C9CDD4}
+
+/* ---------- section shell ---------- */
+section{padding:96px 0 0}
+.shead{display:flex;align-items:baseline;gap:18px;margin-bottom:44px}
+.snum{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.12em}
+.shead h2{
+  font-size:clamp(22px,2.6vw,30px);letter-spacing:-.025em;margin:0;font-weight:600;
+}
+.shead .note{margin-left:auto;font-size:13px;color:var(--dim);font-family:var(--mono)}
+
+/* ---------- services rows ---------- */
+.rows{border-top:1px solid var(--line)}
+.row{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:32px;align-items:start;padding:26px 0;border-bottom:1px solid var(--line);
+  transition:background .2s ease, padding-left .2s ease;
+}
+.row:hover{background:linear-gradient(90deg, rgba(232,163,61,.045), transparent 55%);padding-left:10px}
+.row h3{margin:0;font-size:18px;letter-spacing:-.015em;font-weight:600}
+.row p{margin:6px 0 0;font-size:14.5px;color:var(--muted);max-width:44ch}
+.row .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-family:var(--mono);font-size:11px;color:#98A0AB;border:1px solid var(--line-2);padding:3px 8px;border-radius:2px}
+.row .term{font-family:var(--mono);font-size:12px;color:var(--dim);white-space:nowrap;padding-top:4px}
+.row .term b{color:var(--text);font-weight:500}
+
+/* ---------- proof ---------- */
+.proof{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:44px}
+.pcard{
+  border:1px solid var(--line-2);background:linear-gradient(180deg,var(--surface),#0C0E12);
+  border-radius:3px;padding:22px;position:relative;overflow:hidden;
+}
+.pcard::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(420px 180px at 20% 0%, rgba(232,163,61,.09), transparent 70%);
+}
+.pcard .live{
+  display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:#7BD8A0;margin-bottom:16px;
+}
+.pcard .live i{width:5px;height:5px;border-radius:50%;background:#5FD08A;display:inline-block;animation:pulse 2.4s infinite}
+.chat{display:flex;flex-direction:column;gap:9px;min-height:270px}
+.bub{
+  max-width:84%;padding:9px 13px;font-size:13.5px;line-height:1.45;border-radius:10px;
+  opacity:0;transform:translateY(8px);transition:opacity .5s ease, transform .5s ease;
+}
+.is-in .bub{opacity:1;transform:none}
+.bub.bot{background:#191D24;border:1px solid #262B33;border-bottom-left-radius:3px;align-self:flex-start;color:#D5D9E0}
+.bub.usr{background:var(--accent-dim);border:1px solid rgba(232,163,61,.28);border-bottom-right-radius:3px;align-self:flex-end;color:#F0DEC2}
+.bub.admin{background:#101A14;border:1px solid #1E3326;align-self:flex-start;font-family:var(--mono);font-size:12px;color:#9FD2B0}
+.bub .lbl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:4px 9px;border:1px solid #2E343E;border-radius:3px;color:#B7BDC7;background:#14171D}
+.chip.on{border-color:rgba(232,163,61,.5);color:var(--accent);background:rgba(232,163,61,.08)}
+
+.pmeta{display:flex;flex-direction:column;gap:22px}
+.pmeta h3{margin:0;font-size:20px;letter-spacing:-.02em}
+.pmeta > p{margin:0;color:var(--muted);font-size:14.5px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.specs div{border-top:1px solid var(--line);padding-top:9px}
+.specs b{display:block;color:#C6CBD3;font-weight:500;margin-top:3px;font-family:var(--sans);font-size:13.5px}
+.code{
+  border:1px solid var(--line);background:#0C0E11;border-radius:3px;overflow:auto;
+  font-family:var(--mono);font-size:11.5px;line-height:1.75;padding:16px 18px;color:#9BA3AE;
+  white-space:pre;
+}
+.code .k{color:#C792EA}.code .f{color:#82AAFF}.code .s{color:#A5D6A7}.code .c{color:#4E5661}.code .n{color:#E8A33D}
+
+/* ---------- habits ---------- */
+.habits{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.habit{background:var(--bg);padding:26px 24px;transition:background .2s}
+.habit:hover{background:#0F1115}
+.habit .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--accent);margin-bottom:12px}
+.habit b{display:block;font-size:15px;margin-bottom:6px;font-weight:600}
+.habit span{font-size:13.5px;color:var(--muted)}
+
+/* ---------- process ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;counter-reset:st}
+.step{position:relative;padding-top:20px;border-top:1px solid var(--line-2)}
+.step::before{
+  counter-increment:st;content:"0" counter(st);
+  font-family:var(--mono);font-size:11px;color:var(--dim);display:block;margin-bottom:10px;
+}
+.step b{display:block;font-size:15.5px;margin-bottom:6px}
+.step span{font-size:13.5px;color:var(--muted)}
+
+/* ---------- price ---------- */
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.pr{border:1px solid var(--line);padding:24px;position:relative;transition:border-color .2s, transform .2s}
+.pr:hover{border-color:#39404A;transform:translateY(-3px)}
+.pr .name{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+.pr .sum{font-size:26px;letter-spacing:-.02em;font-weight:600}
+.pr .sum small{font-size:13px;color:var(--muted);font-weight:400;letter-spacing:0}
+.pr ul{list-style:none;padding:0;margin:14px 0 0;font-size:13.5px;color:var(--muted)}
+.pr li{padding:4px 0 4px 16px;position:relative}
+.pr li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--accent)}
+.pnote{
+  margin-top:24px;padding:16px 20px;border-left:1px solid var(--accent);
+  background:rgba(232,163,61,.045);font-size:13.5px;color:var(--muted);
+}
+.pnote b{color:var(--text);font-weight:600}
+
+/* ---------- stack marquee ---------- */
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mtrack{display:flex;gap:34px;width:max-content;animation:slide 38s linear infinite;font-family:var(--mono);font-size:12px;color:#7E8590;letter-spacing:.04em}
+.mtrack span{white-space:nowrap}
+.mtrack span::after{content:"·";margin-left:34px;color:#2E343E}
+@keyframes slide{to{transform:translateX(-50%)}}
+.marquee:hover .mtrack{animation-play-state:paused}
+
+/* ---------- don't ---------- */
+.dont{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.dont div{border-left:1px solid var(--line-2);padding-left:16px;font-size:13.5px;color:var(--muted)}
+.dont b{display:block;color:var(--text);font-size:14px;margin-bottom:4px;font-weight:600}
+
+/* ---------- contact ---------- */
+.contact{padding:110px 0 40px}
+.contact .big{
+  display:block;font-size:clamp(30px,5.4vw,58px);letter-spacing:-.035em;line-height:1.05;
+  color:var(--text);text-decoration:none;font-weight:600;margin:0 0 26px;max-width:22ch;
+  transition:color .2s;
+}
+.contact .big:hover{color:var(--accent)}
+.links{display:flex;flex-wrap:wrap;gap:26px;font-family:var(--mono);font-size:13px}
+.links a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:color .2s,border-color .2s}
+.links a:hover{color:var(--text);border-color:var(--accent)}
+footer{
+  margin-top:70px;padding:24px 0 40px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;
+}
+
+/* ---------- reveal ---------- */
+[data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)}
+[data-reveal].is-in{opacity:1;transform:none}
+[data-reveal][data-delay="1"]{transition-delay:.08s}
+[data-reveal][data-delay="2"]{transition-delay:.16s}
+[data-reveal][data-delay="3"]{transition-delay:.24s}
+[data-reveal][data-delay="4"]{transition-delay:.32s}
+
+@media (max-width:900px){
+  .proof{grid-template-columns:1fr;gap:34px}
+  .row{grid-template-columns:1fr;gap:12px}
+  .row .term{padding-top:0}
+  .glow{display:none}
+}
+@media (max-width:600px){
+  .wrap{padding:0 20px}
+  .top{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:40px}
+  section{padding-top:70px}
+  .shead{flex-wrap:wrap;gap:10px}
+  .shead .note{margin-left:0}
+  .facts{grid-template-columns:1fr}
+  .facts .fact{padding:18px 0;border-right:0;border-bottom:1px solid var(--line)}
+  .facts .fact:last-child{border-bottom:0}
+}
+@media (max-width:720px){
+  .pcard{padding:18px}
+  .chat{min-height:0}
+  .bub{max-width:92%}
+  .specs{gap:12px 18px}
+  .code{font-size:11px;padding:14px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
+  .btn{padding:13px 18px;min-height:48px}
+  .links{gap:18px 22px}
+  .links a{padding:6px 0}
+}
+@media (max-width:420px){
+  .wrap{padding:0 16px}
+  .top{padding:20px 0 32px;gap:8px}
+  .top .right{gap:12px;flex-wrap:wrap;font-size:11px}
+  .eyebrow{letter-spacing:.16em;margin-bottom:20px}
+  h1{font-size:36px;letter-spacing:-.03em;margin-bottom:22px}
+  .lead{margin-bottom:28px}
+  .cta{gap:10px;margin-bottom:40px}
+  .cta .btn{width:100%;justify-content:space-between}
+  .facts{margin-top:8px}
+  .facts .fact{padding:16px 0;font-size:14px}
+  section{padding-top:56px}
+  .shead{margin-bottom:30px}
+  .shead h2{font-size:21px}
+  .shead .note{font-size:11.5px}
+  .row{padding:20px 0}
+  .row h3{font-size:17px}
+  .row p,.pmeta>p{font-size:14px}
+  .proof{gap:24px}
+  .pcard{padding:16px}
+  .bub{font-size:13px;max-width:94%}
+  .chip{font-size:11px;padding:4px 7px}
+  .specs{grid-template-columns:1fr;gap:8px}
+  .code{font-size:10.5px;padding:12px;line-height:1.6}
+  .habits{grid-template-columns:1fr}
+  .habit{padding:22px 18px}
+  .steps{grid-template-columns:1fr;gap:22px}
+  .pr{padding:20px}
+  .dont{gap:16px}
+  .contact{padding:76px 0 32px}
+  .contact .big{font-size:30px}
+  .links{gap:14px 20px;font-size:12.5px}
+  footer{margin-top:48px;gap:8px;font-size:10px}
+}
+@media (hover:none){
+  .row:hover{background:none;padding-left:0}
+  .pr:hover{transform:none;border-color:var(--line)}
+  .btn:hover{transform:none;box-shadow:none}
+  .contact .big:hover{color:var(--text)}
+  .links a:hover{color:var(--muted);border-color:var(--line-2)}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  [data-reveal]{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="glow" id="glow"></div>
+<div class="wrap">
+
+  <header class="top">
+    <div class="me"><b>Иван</b> · разработка</div>
+    <div class="right">
+      <span>Удалённо · UTC+3</span>
+      <span class="status"><i class="dot"></i>беру задачи</span>
+    </div>
+  </header>
+
+  <section style="padding-top:0">
+    <p class="eyebrow" data-reveal>Подряд для агентств и студий</p>
+    <h1 data-reveal data-delay="1">Беру технические задачи, которые <em>висят в бэклоге</em></h1>
+    <p class="lead" data-reveal data-delay="2">
+      Telegram-боты, интеграции с CRM и 1С, выгрузки и парсеры.
+      <b>Фикс за задачу, срок 2–5 дней, предоплата 50%.</b>
+      Без «сделаю, когда освобожусь».
+    </p>
+
+    <div class="cta" data-reveal data-delay="3">
+      <a class="btn" href="https://t.me/zarrews">Написать в Telegram <span class="arw">→</span></a>
+      <a class="btn ghost" href="https://t.me/zzapis_demo_slot_bot">Открыть демо-бота</a>
+    </div>
+
+    <div class="facts" data-reveal data-delay="4">
+      <div class="fact"><b>Формат</b><span>Фикс за задачу, объём по ТЗ</span></div>
+      <div class="fact"><b>Срок</b><span>2–5 дней на типовую</span></div>
+      <div class="fact"><b>Оплата</b><span>50% вперёд, остаток по акту</span></div>
+      <div class="fact"><b>Код</b><span>Остаётся у вас, с инструкцией</span></div>
+      <div class="fact"><b>Исполнение</b><span>Сам, без субподрядчиков</span></div>
+      <div class="fact"><b>Отклик</b><span>В течение рабочего дня</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead" data-reveal>
+      <span class="snum">01</span>
+      <h2>Что закрываю</h2>
+      <span class="note">подряд · фикс · от 6 000 ₽</span>
+    </div>
+
+    <div class="rows">
+      <article class="row" data-reveal>
+        <div>
+          <h3>Боты и Mini Apps</h3>
+          <p>Заявки, запись, оплата, каталог, админка в Telegram. Уведомления менеджеру, напоминания клиенту.</p>
+          <div class="tags"><span class="tag">aiogram</span><span class="tag">Python</span><span class="tag">PostgreSQL</span></div>
+        </div>
+        <div class="term"><b>3–7 дней</b><br>от 15 000 ₽</div>
+      </article>
+
+      <article class="row" data-reveal>
+        <div>
+          <h3>Интеграции</h3>
+          <p>Форма с сайта в CRM, оплата, 1С, Google Sheets, вебхуки. Повторные отправки, если внешний сервис ответил ошибкой.</p>
+          <div class="tags"><span class="tag">amoCRM</span><span class="tag">Bitrix24</span><span class="tag">1С</span><span class="tag">REST</span></div>
+        </div>
+        <div class="term"><b>2–5 дней</b><br>от 10 000 ₽</div>
+      </article>
+
+      <article class="row" data-reveal>
+        <div>
+          <h3>Выгрузки и сбор данных</h3>
+          <p>Отчёт из Директа или Метрики в Telegram, парсинг цен и карточек, сводки в таблицу. Работает по расписанию.</p>
+          <div class="tags"><span class="tag">Яндекс API</span><span class="tag">парсинг</span><span class="tag">Sheets</span></div>
+        </div>
+        <div class="term"><b>2–4 дня</b><br>от 6 000 ₽</div>
+      </article>
+
+      <article class="row" data-reveal>
+        <div>
+          <h3>Доработки чужого</h3>
+          <p>Правки на Bitrix, WordPress, Tilda, в готовых ботах. Разбираюсь по коду, а не по скриншотам.</p>
+          <div class="tags"><span class="tag">Bitrix</span><span class="tag">WordPress</span><span class="tag">Tilda</span></div>
+        </div>
+        <div class="term"><b>1–2 дня</b><br>от 6 000 ₽</div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead" data-reveal>
+      <span class="snum">02</span>
+      <h2>Доказательство</h2>
+      <span class="note">не макет · работает в Telegram и в браузере</span>
+    </div>
+
+    <div class="proof">
+      <div class="pcard" data-reveal>
+        <span class="live"><i></i>демо в сети</span>
+        <div class="chat" id="chat">
+          <div class="bub bot"><span class="lbl">бот</span>Выберите день:
+            <div class="chips"><span class="chip">пн, 24.11</span><span class="chip on">вт, 25.11</span><span class="chip">ср, 26.11</span></div>
+          </div>
+          <div class="bub usr">вт, 25.11</div>
+          <div class="bub bot"><span class="lbl">бот</span>Свободные окна:
+            <div class="chips"><span class="chip">10:00</span><span class="chip">11:30</span><span class="chip on">14:30</span><span class="chip">16:00</span></div>
+          </div>
+          <div class="bub usr">14:30</div>
+          <div class="bub bot"><span class="lbl">бот</span>Готово. Вы записаны на 25.11 в 14:30. Напоминание придёт за сутки.</div>
+          <div class="bub admin"><span class="lbl">уведомление администратору</span>Новая запись · 25.11 14:30 · Анна (@anna)</div>
+        </div>
+      </div>
+
+      <div class="pmeta" data-reveal data-delay="1">
+        <h3>Бот записи и сбора заявок</h3>
+        <p>
+          Не картинка и не видео. Открываете в Telegram, записываетесь или оставляете
+          заявку, вам приходит напоминание. Администратору — уведомление о новой
+          записи и о каждой заявке.
+        </p>
+        <div class="specs">
+          <div>стек<b>Python · aiogram · SQLite</b></div>
+          <div>запуск<b>одна команда</b></div>
+          <div>слоты<b>занятость проверяется</b></div>
+          <div>напоминания<b>фоновый цикл</b></div>
+          <div>заявки<b>FSM → SQLite + уведомление</b></div>
+        </div>
+        <div class="code" aria-label="Фрагмент кода">
+<span class="c"># проверка занятости и запись</span>
+<span class="k">@dp.callback_query</span>(F.data.startswith(<span class="s">"t:"</span>))
+<span class="k">async def</span> <span class="f">book_slot</span>(cb: CallbackQuery):
+    slot = cb.data.split(<span class="s">":"</span>, <span class="n">1</span>)[<span class="n">1</span>]
+    <span class="k">if</span> slot_is_busy(slot):
+        <span class="k">await</span> cb.answer(<span class="s">"Уже занято"</span>, show_alert=<span class="n">True</span>)
+        <span class="k">return</span>
+    db.execute(<span class="s">"INSERT INTO bookings ..."</span>)
+        </div>
+        <div class="links">
+          <a href="https://t.me/zzapis_demo_slot_bot">открыть бота →</a>
+          <a href="https://github.com/VacPit">код на GitHub →</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-reveal data-delay="2">
+        <span class="live"><i></i>демо в сети</span>
+        <div class="chat" id="leadform">
+          <div class="bub usr">Заявка с сайта: «Нужна форма в amoCRM», контакт @anna</div>
+          <div class="bub bot"><span class="lbl">таблица заявок</span>№1 · форма · @anna · Нужна форма в amoCRM</div>
+          <div class="bub admin"><span class="lbl">уведомление администратору</span>Новая заявка · веб-форма · №1 · @anna</div>
+        </div>
+      </div>
+
+      <div class="pmeta" data-reveal data-delay="3">
+        <h3>Форма с сайта → таблица + Telegram</h3>
+        <p>
+          Откройте демо-форму, отправьте заявку и увидите её в журнале. Та же база
+          используется ботом: заявки из формы и из Telegram лежат рядом.
+        </p>
+        <div class="specs">
+          <div>приём<b>POST /demo/lead</b></div>
+          <div>хранение<b>SQLite · общая таблица</b></div>
+          <div>уведомление<b>Telegram админу</b></div>
+          <div>проверки<b>юнит-тесты · защита от повторов</b></div>
+        </div>
+        <div class="code" aria-label="Фрагмент кода">
+<span class="c"># заявка из формы и из бота — один путь</span>
+lead_id, dup = <span class="f">save_lead</span>(DB_PATH, source, name, contact, task)
+<span class="k">if not</span> dup:
+    <span class="k">await</span> <span class="f">notify_admin</span>(bot, <span class="s">"Новая заявка"</span>, text)
+        </div>
+        <div class="links">
+          <a href="https://glc-demo-bot.onrender.com/demo/form">открыть форму →</a>
+          <a href="https://glc-demo-bot.onrender.com/demo/leads?key=demo">журнал заявок →</a>
+          <a href="https://github.com/VacPit/glc-demo-bot">код на GitHub →</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-reveal data-delay="4">
+        <span class="live"><i></i>реальный запуск</span>
+        <div class="chat" id="imap">
+          <div class="bub admin"><span class="lbl">reply-check.log</span>Найдено [автоответ] от sales@dobrosite.com</div>
+          <div class="bub admin"><span class="lbl">reply-check.log</span>Найдено [bounce] 550 ... user not found</div>
+          <div class="bub bot"><span class="lbl">результат</span>3 письма за первый запуск · CSV обновлён</div>
+        </div>
+      </div>
+
+      <div class="pmeta" data-reveal data-delay="5">
+        <h3>Почтовый ассистент: IMAP → ответы и база</h3>
+        <p>
+          Подключил IMAP к почте, чтобы не проверять входящие вручную. За первый
+          запуск нашёл 3 письма: автоответ агентства, ошибку доставки с точным
+          кодом <code>550</code> и сервисное уведомление. Ответы сохраняются дословно,
+          база лидов обновляется сама, повторные запуски ничего не дублируют.
+        </p>
+        <div class="specs">
+          <div>источник<b>IMAP · Входящие + Спам</b></div>
+          <div>классификация<b>ответ / автоответ / bounce</b></div>
+          <div>результат<b>.eml + .txt + CSV</b></div>
+          <div>режим<b>2 раза в день, без дублей</b></div>
+        </div>
+      </div>
+
+      <div class="pcard" data-reveal data-delay="6">
+        <span class="live"><i></i>реальный процесс</span>
+        <div class="chat" id="leadbase">
+          <div class="bub admin"><span class="lbl">источник</span>25 агентств · 2GIS и публичные сайты</div>
+          <div class="bub bot"><span class="lbl">проверка</span>email валиден, дубли убраны, база в CSV</div>
+          <div class="bub usr">11 писем в первый день · 3 события в IMAP</div>
+        </div>
+      </div>
+
+      <div class="pmeta" data-reveal data-delay="7">
+        <h3>Сбор базы лидов → CSV → рассылка → учёт ответов</h3>
+        <p>
+          Собрал публичные контакты агентств, проверил адреса и убрал дубли.
+          Разбил на волны по 10 писем в день с паузами, отдельно логировал
+          отправки и ответы. Один адрес вернул <code>550 user not found</code> —
+          причину разобрал и повторно туда не писал.
+        </p>
+        <div class="specs">
+          <div>источник<b>2GIS + сайты агентств</b></div>
+          <div>проверка<b>валидация email, дедупликация</b></div>
+          <div>отправка<b>10 писем в день, паузы</b></div>
+          <div>контроль<b>IMAP + логи + CSV</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead" data-reveal>
+      <span class="snum">03</span>
+      <h2>Как пишу</h2>
+      <span class="note">то, что видно по демо</span>
+    </div>
+
+    <div class="habits">
+      <div class="habit" data-reveal>
+        <div class="h">/ 01</div>
+        <b>Сначала объём, потом код</b>
+        <span>Список того, что входит и чего не входит. Правки по ТЗ в цене, новые хотелки — отдельно.</span>
+      </div>
+      <div class="habit" data-reveal data-delay="1">
+        <div class="h">/ 02</div>
+        <b>Секреты не в коде</b>
+        <span>Токены в <code>.env</code>, в репозиторий не попадают. Есть <code>.env.example</code> с описанием полей.</span>
+      </div>
+      <div class="habit" data-reveal data-delay="2">
+        <div class="h">/ 03</div>
+        <b>Запуск одной командой</b>
+        <span>Скрипт сам создаёт окружение, ставит зависимости, поднимает сервис. Проверено на чистой машине.</span>
+      </div>
+      <div class="habit" data-reveal data-delay="3">
+        <div class="h">/ 04</div>
+        <b>Сдаю с инструкцией</b>
+        <span>README на человеческом языке: как запустить, где менять настройки, что делать, если упало.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead" data-reveal>
+      <span class="snum">04</span>
+      <h2>Как работаем</h2>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal><b>Задача и оценка</b><span>Присылаете вводные — за 20 минут говорю цену и дату или отказываюсь.</span></div>
+      <div class="step" data-reveal data-delay="1"><b>Фиксация</b><span>ТЗ на одну страницу: что входит, что нет, срок, сумма. Всё письменно.</span></div>
+      <div class="step" data-reveal data-delay="2"><b>Предоплата 50%</b><span>Старт после оплаты. Промежуточный результат — по договорённости.</span></div>
+      <div class="step" data-reveal data-delay="3"><b>Сдача</b><span>Работает на вашей стороне, акт, остаток. Три недели гарантии на баги.</span></div>
+    </div>
+    <div class="code" data-reveal aria-label="Шаблон задачи">
+<span class="c"># чтобы я ответил ценой за 20 минут, пришлите:</span>
+<b>Задача:</b> что должно работать после сдачи
+<b>Системы:</b> CRM / 1С / бот / API — что уже есть
+<b>Вводные:</b> доступы или пример данных (можно обезличенный)
+<b>Срок:</b> к какому числу нужно
+<span class="c"># не нужно: ТЗ на 20 страниц и «сделайте красиво»</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead" data-reveal>
+      <span class="snum">05</span>
+      <h2>Сколько стоит</h2>
+      <span class="note">вилка, точная цена — после ТЗ</span>
+    </div>
+    <div class="price">
+      <div class="pr" data-reveal>
+        <div class="name">Мелкая задача</div>
+        <div class="sum">6–12 <small>тыс ₽</small></div>
+        <ul><li>Правки и доработки</li><li>Форма в CRM</li><li>Вебхук, уведомление</li></ul>
+      </div>
+      <div class="pr" data-reveal data-delay="1">
+        <div class="name">Бот или интеграция</div>
+        <div class="sum">15–30 <small>тыс ₽</small></div>
+        <ul><li>Сценарий и админка</li><li>Внешние API</li><li>Установка и инструкция</li></ul>
+      </div>
+      <div class="pr" data-reveal data-delay="2">
+        <div class="name">Постоянный подряд</div>
+        <div class="sum">по задаче <small>/ месяц</small></div>
+        <ul><li>Очередь задач без поиска людей</li><li>Приоритет по срокам</li><li>Отчёт по часам</li></ul>
+      </div>
+      <div class="pnote" data-reveal>
+        <b>Первые заказы — по стартовой ставке.</b>
+        Объём до 10 часов, один круг правок, фикс до старта. После трёх сданных задач цена
+        пересматривается — вместе с опытом и скоростью.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead" data-reveal>
+      <span class="snum">06</span>
+      <h2>Стек</h2>
+    </div>
+    <div class="marquee" data-reveal>
+      <div class="mtrack">
+        <span>Python</span><span>aiogram</span><span>FastAPI</span><span>PostgreSQL</span><span>SQLite</span>
+        <span>REST</span><span>Webhooks</span><span>Bitrix24</span><span>amoCRM</span><span>1С</span>
+        <span>Tilda</span><span>WordPress</span><span>Яндекс Директ API</span><span>Яндекс Метрика</span>
+        <span>Google Sheets</span><span>YandexGPT</span><span>Docker</span><span>Linux</span><span>Git</span>
+        <span>Python</span><span>aiogram</span><span>FastAPI</span><span>PostgreSQL</span><span>SQLite</span>
+        <span>REST</span><span>Webhooks</span><span>Bitrix24</span><span>amoCRM</span><span>1С</span>
+        <span>Tilda</span><span>WordPress</span><span>Яндекс Директ API</span><span>Яндекс Метрика</span>
+        <span>Google Sheets</span><span>YandexGPT</span><span>Docker</span><span>Linux</span><span>Git</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead" data-reveal>
+      <span class="snum">07</span>
+      <h2>Чего не беру</h2>
+    </div>
+    <div class="dont">
+      <div data-reveal><b>Проекты больше 40 часов</b>на первом заказе — не хочу подвести сроками</div>
+      <div data-reveal data-delay="1"><b>Работу без ТЗ</b>«сделайте красиво, потом посмотрим» — это не оценка, а лотерея</div>
+      <div data-reveal data-delay="2"><b>Дизайн и рекламу</b>это не моя часть работы, и я говорю об этом сразу</div>
+      <div data-reveal data-delay="3"><b>Оплату после сдачи клиенту</b>риск делить можно, но не на первом заказе</div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <p class="eyebrow" data-reveal>Свободен для задач</p>
+    <a class="big" href="https://t.me/zarrews" data-reveal data-delay="1">Напишите в Telegram — отвечу в течение дня</a>
+    <div class="links" data-reveal data-delay="2">
+      <a href="https://t.me/zarrews">@zarrews</a>
+      <a href="mailto:kish.lak@list.ru">kish.lak@list.ru</a>
+      <a href="https://github.com/VacPit">github.com/VacPit</a>
+      <a href="https://t.me/zzapis_demo_slot_bot">демо-бот</a>
+    </div>
+    <footer>
+      <span>Иван · удалённо</span>
+      <span>Договор · акт · оплата по счёту</span>
+      <span>© 2026</span>
+    </footer>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Появление секций
+  var items = document.querySelectorAll("[data-reveal]");
+  if (!("IntersectionObserver" in window) || reduce) {
+    items.forEach(function(el){ el.classList.add("is-in"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+    items.forEach(function(el){ io.observe(el); });
+  }
+
+  // Последовательное появление сообщений в превью бота
+  var chat = document.getElementById("chat");
+  if (chat) {
+    var bubbles = chat.querySelectorAll(".bub");
+    if (reduce) {
+      chat.classList.add("is-in");
+    } else if ("IntersectionObserver" in window) {
+      var cio = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (!e.isIntersecting) return;
+          chat.classList.add("is-in");
+          bubbles.forEach(function(b, i){
+            b.style.transitionDelay = (i * 0.28 + 0.15) + "s";
+          });
+          cio.disconnect();
+        });
+      }, { threshold: 0.25 });
+      cio.observe(chat);
+    }
+  }
+
+  // Мягкое свечение за курсором
+  var glow = document.getElementById("glow");
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (glow && fine && !reduce) {
+    var x = 0, y = 0, tx = 0, ty = 0, raf = null;
+    document.addEventListener("pointermove", function(ev){
+      tx = ev.clientX; ty = ev.clientY;
+      glow.style.opacity = "1";
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
+    function tick(){
+      x += (tx - x) * 0.12;
+      y += (ty - y) * 0.12;
+      glow.style.transform = "translate(" + (x - 260) + "px," + (y - 260) + "px)";
+      if (Math.abs(tx - x) > 0.5 || Math.abs(ty - y) > 0.5) {
+        raf = requestAnimationFrame(tick);
+      } else { raf = null; }
+    }
+  }
+})();
+</script>
+</body>
+</html>
