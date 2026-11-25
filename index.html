@@ -103,13 +103,23 @@ h1 em{font-style:normal;color:var(--muted)}
 .btn.ghost:hover{border-color:#4A505B;background:rgba(255,255,255,.03);box-shadow:none}
 
 /* facts strip */
-.facts{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.fact{
-  flex:1 1 190px;padding:20px 22px 20px 0;border-right:1px solid var(--line);
-  font-size:13.5px;color:var(--muted);
+.facts{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
 }
-.fact:last-child{border-right:0}
-.fact b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.fact{
+  padding:22px 28px 22px 0;border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  font-size:15px;line-height:1.45;color:#C9CDD4;
+}
+.fact:nth-child(3n){border-right:0;padding-right:0}
+.fact:nth-child(3n+2),.fact:nth-child(3n){padding-left:28px}
+.fact:nth-child(n+4){border-bottom:0}
+.fact b{
+  display:block;font-family:var(--mono);font-size:12.5px;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:9px;
+}
 .fact span{color:#C9CDD4}
 
 /* ---------- section shell ---------- */
@@ -262,8 +272,9 @@ footer{
   section{padding-top:70px}
   .shead{flex-wrap:wrap;gap:10px}
   .shead .note{margin-left:0}
-  .fact{flex:1 1 100%;border-right:0;border-bottom:1px solid var(--line);padding-right:0}
-  .fact:last-child{border-bottom:0}
+  .facts{grid-template-columns:1fr}
+  .facts .fact{padding:18px 0;border-right:0;border-bottom:1px solid var(--line)}
+  .facts .fact:last-child{border-bottom:0}
 }
 @media (max-width:720px){
   .pcard{padding:18px}
@@ -285,7 +296,7 @@ footer{
   .cta{gap:10px;margin-bottom:40px}
   .cta .btn{width:100%;justify-content:space-between}
   .facts{margin-top:8px}
-  .fact{padding:16px 0;font-size:13px}
+  .facts .fact{padding:16px 0;font-size:14px}
   section{padding-top:56px}
   .shead{margin-bottom:30px}
   .shead h2{font-size:21px}
